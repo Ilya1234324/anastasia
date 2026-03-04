@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мастер-класс по никтографии | EventHub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #021010 0%, #0a2a2a 50%, #031a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .registration-container {
+            width: 100%;
+            max-width: 1400px;
+            min-height: 90vh;
+            background: rgba(10, 25, 23, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+            border: 1px solid #1e4f4a;
+        }
+
+        /* Левая часть - Информация о мероприятии */
+        .event-info {
+            background: linear-gradient(145deg, #041f1f 0%, #0b3131 50%, #032323 100%);
+            color: white;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-right: 1px solid #1b5450;
+        }
+
+        .event-info::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(30, 120, 100, 0.1) 0%, transparent 70%);
+            animation: rotate 25s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .event-badge {
+            background: rgba(10, 45, 40, 0.7);
+            backdrop-filter: blur(5px);
+            padding: 12px 24px;
+            border-radius: 50px;
+            display: inline-block;
+            width: fit-content;
+            margin-bottom: 30px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            border: 1px solid #2b7a6e;
+            color: #b0e6dc;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .event-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, #e0fff5, #70b5a8, #8fd6ca);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 5px 20px rgba(0, 20, 15, 0.8);
+        }
+
+        .event-description {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #9fd1c9;
+            margin-bottom: 50px;
+            max-width: 500px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            font-weight: 400;
+        }
+
+        .event-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(2, 25, 22, 0.7);
+            padding: 12px 18px;
+            border-radius: 20px;
+            backdrop-filter: blur(3px);
+            border: 1px solid #2e6a60;
+            transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .detail-item:hover {
+            transform: translateY(-5px);
+            border-color: #4bb5a3;
+            background: rgba(10, 45, 40, 0.8);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .detail-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(145deg, #124e44, #052e27);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+            border: 1px solid #348d7c;
+        }
+
+        .detail-text h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #caf2e9;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .detail-text p {
+            color: #98cdc2;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        /* Правая часть - Форма регистрации */
+        .registration-form {
+            padding: 60px;
+            background: linear-gradient(145deg, #0e2220, #0b2a26, #0a1f1d);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 40px;
+        }
+
+        .form-header h2 {
+            font-size: 2.5rem;
+            color: #c2eee4;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .form-header p {
+            color: #8fcbc0;
+            font-size: 1.1rem;
+            font-weight: 400;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #b0e3d9;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #1d4f48;
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #102f2b;
+            color: #e0f3ef;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3fc7b2;
+            background: #17433d;
+            box-shadow: 0 0 15px rgba(45, 180, 155, 0.3), inset 0 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        input:hover, select:hover, textarea:hover {
+            border-color: #38aa99;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 30px 0;
+            background: #0d312c;
+            padding: 15px;
+            border-radius: 15px;
+            border-left: 5px solid #2faa95;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+            accent-color: #2faa95;
+            transform: scale(1.2);
+            background: #0d312c;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            color: #c0ece2;
+            font-weight: 500;
+        }
+
+        .checkbox-group a {
+            color: #54cfbc;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px dashed #3dbbaa;
+        }
+
+        .checkbox-group a:hover {
+            color: #85ead9;
+            border-bottom: 1px solid #85ead9;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(145deg, #043b33, #0b6355, #02433a);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+            border: 1px solid #379f8e;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(145deg, #055348, #108773, #035a4b);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 15px rgba(55, 200, 170, 0.3);
+            border: 1px solid #5edac8;
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        ::placeholder {
+            color: #4b8b80;
+            opacity: 0.7;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 968px) {
+            .registration-container {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .event-info {
+                padding: 40px;
+                border-right: none;
+                border-bottom: 1px solid #1b5450;
+            }
+
+            .event-title {
+                font-size: 3rem;
+            }
+
+            .registration-form {
+                padding: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .event-info {
+                padding: 30px;
+            }
+
+            .registration-form {
+                padding: 30px;
+            }
+
+            .event-title {
+                font-size: 2.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .detail-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .event-info > * {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .registration-form > * {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .event-info > *:nth-child(1) { animation-delay: 0.1s; }
+        .event-info > *:nth-child(2) { animation-delay: 0.2s; }
+        .event-info > *:nth-child(3) { animation-delay: 0.3s; }
+        .event-info > *:nth-child(4) { animation-delay: 0.4s; }
+
+        .registration-form > *:nth-child(1) { animation-delay: 0.2s; }
+        .registration-form > *:nth-child(2) { animation-delay: 0.3s; }
+        .registration-form > *:nth-child(3) { animation-delay: 0.4s; }
+        .registration-form > *:nth-child(4) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <!-- Левая часть с информацией о мероприятии -->
+        <div class="event-info">
+            <div class="event-badge">
+                🔥 Ограниченное количество мест
+            </div>
+            
+            <h1 class="event-title">
+                Волшебный отпечаток<br>Секреты никтографии
+            </h1>
+            
+            <p class="event-description">
+                Мастер-класс для юных художников 7-11 лет
+            </p>
+
+            <div class="event-details">
+                <div class="detail-item">
+                    <div class="detail-icon">📅</div>
+                    <div class="detail-text">
+                        <h3>Дата</h3>
+                        <p>5 марта 2026</p>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-icon">📍</div>
+                    <div class="detail-text">
+                        <h3>Место</h3>
+                        <p>Колледж имени С. Я. Маршака</p>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-icon">👥</div>
+                    <div class="detail-text">
+                        <h3>Состав</h3>
+                        <p>2 специалиста и 7 обучающихся</p>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-icon">⏰</div>
+                    <div class="detail-text">
+                        <h3>Время</h3>
+                        <p>14:45 - 15:30</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Правая часть с формой регистрации -->
+        <div class="registration-form">
+            <div class="form-header">
+                <h2>Регистрация</h2>
+                <p>Заполните форму для участия в мастер-классе</p>
+            </div>
+
+            <form>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">Имя ребенка *</label>
+                        <input type="text" id="firstName" placeholder="Введите имя ребенка" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Фамилия ребенка *</label>
+                        <input type="text" id="lastName" placeholder="Введите фамилию ребенка" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email родителя *</label>
+                    <input type="email" id="email" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Телефон родителя *</label>
+                    <input type="tel" id="phone" placeholder="+7 (999) 999-99-99" required>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="agreement" required>
+                    <label for="agreement">
+                        Я согласен с <a href="#">условиями обработки данных</a> и <a href="#">правилами мероприятия</a> *
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Зарегистрироваться
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
